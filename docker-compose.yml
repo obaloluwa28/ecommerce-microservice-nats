@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  nats:
+    image: nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    command: -js
+
+  user-service:
+    build: ./services/user-service
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+
+  product-service:
+    build: ./services/product-service
+    ports:
+      - "3002:3000"
+    environment:
+      - PORT=3000
+
+  order-service:
+    build: ./services/order-service
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+
+  notification-service:
+    build: ./services/notification-service
+    ports:
+      - "3004:3000"
+    environment:
+      - PORT=3000
+
+  analytics-service:
+    build: ./services/analytics-service
+    ports:
+      - "3005:3000"
+    environment:
+      - PORT=3000
