@@ -7,12 +7,48 @@ services:
       - "8222:8222"
     command: -js
 
+  postgres-user:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: userdb
+
+  postgres-product:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: productdb
+
+  postgres-order:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: orderdb
+
+  postgres-notification:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: notificationdb
+
+  postgres-analytics:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: analyticsdb
+
   user-service:
     build: ./services/user-service
     ports:
       - "3001:3000"
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:root@postgres-user:5432/userdb
 
   product-service:
     build: ./services/product-service
@@ -20,6 +56,7 @@ services:
       - "3002:3000"
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:root@postgres-product:5432/productdb
 
   order-service:
     build: ./services/order-service
@@ -27,6 +64,7 @@ services:
       - "3003:3000"
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:root@postgres-order:5432/orderdb
 
   notification-service:
     build: ./services/notification-service
@@ -34,6 +72,7 @@ services:
       - "3004:3000"
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:root@postgres-notification:5432/notificationdb
 
   analytics-service:
     build: ./services/analytics-service
@@ -41,3 +80,4 @@ services:
       - "3005:3000"
     environment:
       - PORT=3000
+      - DATABASE_URL=postgresql://postgres:root@postgres-analytics:5432/analyticsdb
